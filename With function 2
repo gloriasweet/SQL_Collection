@@ -1,0 +1,31 @@
+WITH clicks AS (SELECT display_impression_id, 1 AS clicked
+        FROM tbl_trade_desk_clicks
+        )
+SELECT imp_datetime,
+       imp_id,
+       win_price_cpm,
+       supply_vendor,
+       adv_id,
+       campaign_id,
+       creative_id,
+       imp_width_px,
+       imp_height_px,
+       frequency,
+       site,
+       tdid,
+       referrer_cat_list,
+       fold_position,
+       user_hour_of_week,
+       region,
+       metro,
+       city,
+       NVL(clicks.clicked, 0) AS clicked
+FROM tbl_trade_desk_imps imps
+LEFT JOIN clicks 
+ ON imps.imp_id = clicks.display_impression_id
+ORDER BY RANDOM() 
+LIMIT 10000;
+
+
+
+
