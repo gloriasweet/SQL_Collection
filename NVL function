@@ -1,0 +1,18 @@
+For example:
+
+SELECT NVL(supplier_city, 'n/a')
+FROM suppliers;
+The SQL statement above would return 'n/a' if the supplier_city field contained a null value. Otherwise, it would return the supplier_city value.
+
+Another example using the NVL function in Oracle/PLSQL is:
+
+SELECT supplier_id,
+NVL(supplier_desc, supplier_name)
+FROM suppliers;
+This SQL statement would return the supplier_name field if the supplier_desc contained a null value. Otherwise, it would return the supplier_desc.
+
+A final example using the NVL function in Oracle/PLSQL is:
+
+SELECT NVL(commission, 0)
+FROM sales;
+This SQL statement would return 0 if the commission field contained a null value. Otherwise, it would return the commission field.
