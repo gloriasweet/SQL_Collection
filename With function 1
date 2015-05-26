@@ -1,0 +1,71 @@
+WITH imps AS (
+       SELECT imp_datetime,
+              imp_id,
+              win_price_cpm,
+              supply_vendor,
+              imps.adv_id,
+              imps.campaign_id,
+              creative_id,
+              imp_width_px,
+              imp_height_px,
+              frequency,
+              site,
+              tdid,
+              referrer_cat_list,
+              fold_position,
+              user_hour_of_week,
+              region,
+              metro,
+              city, 
+              0 AS clicked
+       FROM tbl_trade_desk_imps imps
+       WHERE imp_id NOT IN (SELECT display_impression_id
+                      FROM tbl_trade_desk_clicks
+                     )
+       ORDER BY RANDOM()
+       LIMIT 6500
+)
+SELECT imp_datetime,
+       imp_id,
+       win_price_cpm,
+       supply_vendor,
+       imps.adv_id,
+       imps.campaign_id,
+       creative_id,
+       imp_width_px,
+       imp_height_px,
+       frequency,
+       site,
+       imps.tdid,
+       referrer_cat_list,
+       fold_position,
+       user_hour_of_week,
+       region,
+       metro,
+       city, 
+       1 AS clicked
+FROM tbl_trade_desk_imps imps
+JOIN tbl_trade_desk_clicks clicks 
+  ON imps.imp_id = clicks.display_impression_id
+UNION ALL 
+SELECT imp_datetime,
+       imp_id,
+       win_price_cpm,
+       supply_vendor,
+       adv_id,
+       campaign_id,
+       creative_id,
+       imp_width_px,
+       imp_height_px,
+       frequency,
+       site,
+       tdid,
+       referrer_cat_list,
+       fold_position,
+       user_hour_of_week,
+       region,
+       metro,
+       city, 
+       clicked
+FROM imps
+LIMIT 10000
