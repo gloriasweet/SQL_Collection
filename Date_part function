@@ -1,0 +1,12 @@
+SELECT dte
+    , CASE
+      WHEN DATE_PART(dow, dte) = 1 THEN 'sunday'
+      WHEN DATE_PART(dow, dte) = 2 THEN 'monday'
+      WHEN DATE_PART(dow, dte) = 3 THEN 'tuesday'
+      WHEN DATE_PART(dow, dte) = 4 THEN 'wednesday'
+      WHEN DATE_PART(dow, dte) = 5 THEN 'thursday'
+      WHEN DATE_PART(dow, dte) = 6 THEN 'friday'
+      WHEN DATE_PART(dow, dte) = 7 THEN 'saturday'
+    END AS day_of_week
+   , DATE_PART(dow, dte) AS integer_val_dow
+FROM 
