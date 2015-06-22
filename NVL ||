@@ -1,0 +1,13 @@
+SELECT ad_exchange||
+       device_os||
+       NVL(website_id,'')||
+       NVL(site_base_url,'')||
+       NVL(site_domain,'')||
+       NVL(to_char(imp_width, 'FM9999'),'')||
+       NVL(to_char(imp_height, 'FM9999'),'')||
+       NVL(preference,'')||
+       NVL(creative_type,'')||
+       NVL(to_char(POSITION, 'FM9'),'') as Mashup3,
+       creative_duration,
+       SUM(imps) AS total_imps,
+       SUM(videocompletes) AS total_vc
