@@ -1,0 +1,46 @@
+unload('
+select req_ad_id, imp_width, imp_height, imp_btype, preference, site_base_url, category, device_state, device_city, device_carrier, device_make, device_model, device_osv, restriction_bcat,
+restriction_badv, creative_type, position, clicked
+from
+(
+select 1 as ind, \'req_ad_id\' as req_ad_id, \'imp_width\' as imp_width, \'imp_height\' as imp_height,\'imp_btype\' as imp_btype,
+\'preference\' as preference, \'site_base_url\' as site_base_url,  \'category\' as category,
+\'device_state\' as device_state, \'device_city\' as device_city, \'device_carrier\' as device_carrier,
+\'device_make\' as device_make, \'device_model\' as device_model,\'device_osv\' as device_osv,
+\'restriction_bcat\' as restriction_bcat, \'restriction_badv\' as restriction_badv,
+\'creative_type\' as creative_type, \'position\' as position, \'clicked\' as clicked
+union all
+SELECT 2 as ind, 
+       req_ad_id,
+       cast(imp_width as varchar(255)),
+       cast(imp_height as varchar(255)),
+       imp_btype,
+       preference,
+       site_base_url,
+       category,
+       device_state,
+       device_city,
+       device_carrier,
+       device_make,
+       device_model,
+       cast(device_osv as varchar(255)),
+       cast(restriction_bcat as varchar(255)),
+       cast(restriction_badv as varchar(255)),
+       creative_type,
+       cast(position as varchar(255)),
+       case when clicked=1 then cast(1 as varchar(255)) 
+             else cast(0 as varchar(255)) 
+             end as clicked 
+             
+FROM resp_front
+where req_datetime >= \'2015-05-17\' and req_datetime <= \'2015-06-05\'
+and lower(ad_exchange) = \'mopub\'
+and lower(device_os)=\'ios\'
+and rtdm = 0
+and winner = 1
+)
+order by ind
+
+') 
+to  's3://data-sciences/gloria_exports/0622_encoder_header_test'  CREDENTIALS 'aws_access_key_id=AKIAJ5TFZ2HAO54EUHYQ;aws_secret_access_key=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' 
+parallel off allowoverwrite delimiter ',';
